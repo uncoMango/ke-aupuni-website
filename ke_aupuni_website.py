@@ -612,7 +612,7 @@ ADMIN_TEMPLATE = """<!DOCTYPE html>
             <h1>Website Admin Panel</h1>
             <p>Edit your website pages below:</p>
             
-            <form method="POST" action="/admin/save">
+            <form method="POST" action="/admin/save?key=KeAupuni2025!">
                 <div class="form-group">
                     <label for="page_id">Select Page to Edit:</label>
                     <select name="page_id" class="form-control" onchange="loadPage(this.value)">
@@ -654,8 +654,8 @@ ADMIN_TEMPLATE = """<!DOCTYPE html>
     
     <script>
         function loadPage(pageId) {
-            window.location.href = '/admin?page=' + pageId;
-        }
+    window.location.href = '/admin?page=' + pageId + '&key=KeAupuni2025!';
+}
     </script>
 </body>
 </html>"""
@@ -727,4 +727,5 @@ if __name__ == "__main__":
     print("?? Admin: http://localhost:5000/admin")
 
     app.run(debug=True, host="0.0.0.0", port=5000)
+
 
