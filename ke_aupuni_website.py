@@ -675,9 +675,20 @@ def page(page_id):
 
 @app.route("/admin")
 def admin():
+    password = request.args.get("key")
+    if password != "KeAupuni2025!":
+        return "<h1>Access Denied</h1><p>Unauthorized access! 🌺</p>", 403
+    
     data = load_content()
     current_page = request.args.get("page", "home")
     current_data = data["pages"].get(current_page, {})
+    
+    return render_template_string(ADMIN_TEMPLATE,
+        style=ENHANCED_STYLE,
+        pages=data["pages"],
+        current_page=current_page,
+        current_data=current_data
+    )
     
     return render_template_string(ADMIN_TEMPLATE,
         style=ENHANCED_STYLE,
@@ -711,4 +722,5 @@ if __name__ == "__main__":
     print("?? Starting Ke Aupuni O Ke Akua website...")
     print("????? Visit: http://localhost:5000")
     print("?? Admin: http://localhost:5000/admin")
+
     app.run(debug=True, host="0.0.0.0", port=5000)
