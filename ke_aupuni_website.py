@@ -24,13 +24,6 @@ DEFAULT_PAGES = {
 
 Welcome to **Ke Aupuni O Ke Akua** (The Kingdom of God), a peaceful digital sanctuary where Hawaiian wisdom meets spiritual growth. Our mission is to share the beauty of island life, traditional mo'olelo (stories), and kingdom principles that nurture both body and soul.
 
-### Traditional Hawaiian Mo'olelo (Sacred Stories)
-
-**The Story of Maui and the Sun (La)**
-Long ago, the sun raced across the sky so quickly that the people of Hawai?i couldn't dry their kapa cloth or grow their crops properly. The clever hero Maui decided to help his people. He climbed to the top of Haleakala with strong ropes made from his sister's hair. When the sun rose, Maui lassoed its rays and held it tight. "You must slow down and give us longer days!" he demanded. The sun agreed, and from that day forward, we have been blessed with the perfect balance of daylight for our island life.
-
-**Pele's Gift of Creation**
-Pele, the volcano goddess, is both creator and destroyer. As she moves through the islands, her fiery spirit shapes new land while transforming the old. She teaches us that all things must change and grow, and that even in destruction, there is the promise of new life. The black sand beaches and fertile volcanic soil are Pele's gifts to the people.
 
 ### Navigate Our Sacred Spaces
 
@@ -575,7 +568,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
             {% if page.product_url %}
             <div class="buy-section">
                 <a href="{{ page.product_url }}" target="_blank" class="buy-button">
-                    ?? Buy Now on Amazon
+                    🛒 Buy Now on Amazon
                 </a>
             </div>
             {% endif %}
@@ -725,6 +718,7 @@ if __name__ == "__main__":
     print("?? Admin: http://localhost:5000/admin")
 
     app.run(debug=True, host="0.0.0.0", port=5000)
+
 
 
 
