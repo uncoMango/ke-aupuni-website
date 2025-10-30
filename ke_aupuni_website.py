@@ -699,10 +699,6 @@ def admin():
 
 @app.route("/admin/save", methods=["POST"])
 def admin_save():
-    password = request.form.get("key") or request.args.get("key")
-    if password != "KeAupuni2025!":
-        return "<h1>Access Denied</h1><p>Unauthorized access! 🌺</p>", 403
-    
     data = load_content()
     
     page_id = request.form.get("page_id")
@@ -714,6 +710,8 @@ def admin_save():
             "product_url": request.form.get("product_url", "")
         }
         save_content(data)
+    
+    return redirect("/admin?key=KeAupuni2025!")
     
     return redirect(url_for("admin", page=page_id) + "?key=KeAupuni2025!")
 if __name__ == "__main__":
@@ -727,5 +725,6 @@ if __name__ == "__main__":
     print("?? Admin: http://localhost:5000/admin")
 
     app.run(debug=True, host="0.0.0.0", port=5000)
+
 
 
