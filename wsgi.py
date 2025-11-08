@@ -1,4 +1,4 @@
-from ke_aupuni_o_ke_akua import app
+from ke_aupuni_website import app
 
 if __name__ == "__main__":
     app.run()
