@@ -690,10 +690,7 @@ def admin():
         current_data=current_data
     )
 
-@app.route("/admin/save", methods=["POST"])
-def admin_save():
-    data = load_content()
-    
+
     @app.route("/admin/save", methods=["POST"])
 def admin_save():
     data = load_content()
@@ -790,6 +787,7 @@ if __name__ == "__main__":
     print("?? Admin: http://localhost:5000/admin")
 
     app.run(debug=True, host="0.0.0.0", port=5000)
+
 
 
 
