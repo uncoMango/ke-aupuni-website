@@ -1,10 +1,13 @@
-# ke_aupuni_o_ke_akua.py
-# Complete Hawaiian Kingdom website with working admin and beautiful content
 
-from flask import Flask, request, redirect, render_template_string, abort, url_for
+
+# ke_aupuni_website.py
+# Complete Hawaiian Kingdom website - Render deployment version
+
+from flask import Flask, request, redirect, render_template_string, abort
 import json
 from pathlib import Path
 import markdown
+import os
 
 app = Flask(__name__)
 
@@ -23,7 +26,6 @@ DEFAULT_PAGES = {
         "body_md": """## Aloha and Welcome to Our Sacred Space
 
 Welcome to **Ke Aupuni O Ke Akua** (The Kingdom of God), a peaceful digital sanctuary where Hawaiian wisdom meets spiritual growth. Our mission is to share the beauty of island life, traditional mo'olelo (stories), and kingdom principles that nurture both body and soul.
-
 
 ### Navigate Our Sacred Spaces
 
@@ -57,11 +59,11 @@ For over 1,000 years, Hawaiian healers have used the plants and practices of the
 
 **Lokahi** - Unity and harmony. True wellness comes when we align our physical, mental, and spiritual selves in balance.
 
-### Traditional Healing Plants of Hawai?i
+### Traditional Healing Plants of Hawaiʻi
 
-**?Olena (Hawaiian Turmeric)** - Used for inflammation and digestive health
+**ʻOlena (Hawaiian Turmeric)** - Used for inflammation and digestive health
 **Mamaki** - A gentle tea plant that supports overall wellness
-**?Awapuhi (Wild Ginger)** - Traditional remedy for nausea and digestive issues
+**ʻAwapuhi (Wild Ginger)** - Traditional remedy for nausea and digestive issues
 **Kalo (Taro)** - Sacred food plant that nourishes both body and spirit
 
 ### Modern Application
@@ -324,31 +326,43 @@ body {
 }
 
 .content-card h2 {
-    color: var(--accent-teal);
+    color: white;
     margin-bottom: 1rem;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.9);
 }
 
 .content-card h3 {
-    color: var(--accent-warm);
+    color: white;
     margin: 2rem 0 1rem;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
 }
 
 .content-card p {
-    margin-bottom: 1.2rem;
-    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    line-height: 1.8;
 }
 
 .content-card strong {
-    color: var(--accent-teal);
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.content-card li {
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    line-height: 1.8;
 }
 
 .buy-section {
     text-align: center;
     margin-top: 2rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(95, 158, 160, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .buy-button {
@@ -369,60 +383,6 @@ body {
     box-shadow: 0 6px 20px rgba(95, 158, 160, 0.4);
 }
 
-.admin-panel {
-    background: white;
-    border-radius: 8px;
-    padding: 2rem;
-    margin: 2rem auto;
-    max-width: 800px;
-    box-shadow: var(--shadow-soft);
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: var(--text-dark);
-}
-
-.form-control {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid #e1e5e9;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--accent-teal);
-}
-
-textarea.form-control {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.btn {
-    background: var(--accent-teal);
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.btn:hover {
-    background: #4a8b8e;
-}
-
 .footer {
     text-align: center;
     padding: 2rem;
@@ -432,43 +392,36 @@ textarea.form-control {
     margin-top: 2rem;
 }
 
-.content-card h2,
-.content-card h3,
-.content-card p,
-.content-card strong,
-.content-card li {
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    line-height: 1.8;
-}
-
-.content-card h2 {
-    font-size: 2.2rem;
-    margin-bottom: 1.5rem;
-    text-shadow: 3px 3px 6px rgba(0,0,0,0.9);
-}
-
-.content-card h3 {
-    font-size: 1.6rem;
-    margin: 2rem 0 1rem;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
-}
-
-.content-card p {
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-}
-
 @media (max-width: 768px) {
-
-@media (max-width: 768px) {
-    .nav-container { flex-direction: column; gap: 1rem; padding: 0 1rem; }
-    .nav-menu { flex-wrap: wrap; justify-content: center; gap: 1rem; }
-    .hero { height: 45vh; min-height: 300px; }
-    .hero h1 { font-size: 2rem; }
-    .container { margin-top: -2rem; padding: 0 1rem 2rem; }
-    .content-card { padding: 2rem 1.5rem; }
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .hero {
+        height: 45vh;
+        min-height: 300px;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .container {
+        margin-top: -2rem;
+        padding: 0 1rem 2rem;
+    }
+    
+    .content-card {
+        padding: 2rem 1.5rem;
+    }
 }
 """
 
@@ -489,7 +442,6 @@ def load_content():
         data = {"order": ORDER, "pages": DEFAULT_PAGES}
         save_content(data)
     
-    # Ensure all required pages exist
     for page_id in ORDER:
         if page_id not in data["pages"]:
             data["pages"][page_id] = DEFAULT_PAGES.get(page_id, {
@@ -514,7 +466,6 @@ def render_page(page_id, data):
     
     page = data["pages"][page_id]
     
-    # Build navigation
     nav_items = []
     for slug in ORDER:
         if slug in data["pages"]:
@@ -532,7 +483,6 @@ def render_page(page_id, data):
         current_page=page_id
     )
 
-# HTML Template
 PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -549,7 +499,6 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
                 {% for item in nav_items %}
                 <li><a href="{{ item.url }}">{{ item.title }}</a></li>
                 {% endfor %}
-                <li><a href="/admin">Admin</a></li>
             </ul>
         </div>
     </nav>
@@ -576,84 +525,11 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     </main>
     
     <footer class="footer">
-        <p>&copy; 2025 Ke Aupuni O Ke Akua. All rights reserved. Made with aloha in Hawai?i.</p>
+        <p>&copy; 2025 Ke Aupuni O Ke Akua. All rights reserved. Made with aloha in Hawaiʻi.</p>
     </footer>
 </body>
 </html>"""
 
-# Admin Template
-ADMIN_TEMPLATE = """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Ke Aupuni O Ke Akua</title>
-    <style>{{ style }}</style>
-</head>
-<body>
-    <nav class="site-nav">
-        <div class="nav-container">
-            <a href="/" class="nav-title">Ke Aupuni O Ke Akua</a>
-            <ul class="nav-menu">
-                <li><a href="/">Back to Site</a></li>
-            </ul>
-        </div>
-    </nav>
-    
-    <div class="container">
-        <div class="admin-panel">
-            <h1>Website Admin Panel</h1>
-            <p>Edit your website pages below:</p>
-            
-            <form method="POST" action="/admin/save?key=KeAupuni2025!">
-                <div class="form-group">
-                    <label for="page_id">Select Page to Edit:</label>
-                    <select name="page_id" class="form-control" onchange="loadPage(this.value)">
-                        {% for page_id in pages.keys() %}
-                        <option value="{{ page_id }}" {% if page_id == current_page %}selected{% endif %}>
-                            {{ pages[page_id].title }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="title">Page Title:</label>
-                    <input type="text" name="title" id="title" class="form-control" 
-                           value="{{ current_data.title if current_data else '' }}">
-                </div>
-                
-                <div class="form-group">
-                    <label for="hero_image">Hero Image URL:</label>
-                    <input type="url" name="hero_image" id="hero_image" class="form-control" 
-                           value="{{ current_data.hero_image if current_data else '' }}">
-                </div>
-                
-                <div class="form-group">
-                    <label for="body_md">Page Content (Markdown):</label>
-                    <textarea name="body_md" id="body_md" class="form-control" rows="15">{{ current_data.body_md if current_data else '' }}</textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="product_url">Product/Buy Now URL (optional):</label>
-                    <input type="url" name="product_url" id="product_url" class="form-control" 
-                           value="{{ current_data.product_url if current_data else '' }}">
-                </div>
-                
-                <button type="submit" class="btn">Save Changes</button>
-            </form>
-        </div>
-    </div>
-    
-    <script>
-        function loadPage(pageId) {
-    window.location.href = '/admin?page=' + pageId + '&key=KeAupuni2025!';
-}
-    </script>
-</body>
-</html>"""
-
-# Routes
 @app.route("/")
 def home():
     data = load_content()
@@ -665,47 +541,6 @@ def page(page_id):
     if page_id not in data["pages"]:
         abort(404)
     return render_page(page_id, data)
-
-@app.route("/admin")
-def admin():
-    password = request.args.get("key")
-    if password != "KeAupuni2025!":
-        return "<h1>Access Denied</h1><p>Unauthorized access! 🌺</p>", 403
-    
-    data = load_content()
-    current_page = request.args.get("page", "home")
-    current_data = data["pages"].get(current_page, {})
-    
-    return render_template_string(ADMIN_TEMPLATE,
-        style=ENHANCED_STYLE,
-        pages=data["pages"],
-        current_page=current_page,
-        current_data=current_data
-    )
-    
-    return render_template_string(ADMIN_TEMPLATE,
-        style=ENHANCED_STYLE,
-        pages=data["pages"],
-        current_page=current_page,
-        current_data=current_data
-    )
-
-
-    @app.route("/admin/save", methods=["POST"])
-def admin_save():
-    data = load_content()
-    
-    page_id = request.form.get("page_id")
-    if page_id in data["pages"]:
-        data["pages"][page_id] = {
-            "title": request.form.get("title", ""),
-            "hero_image": request.form.get("hero_image", ""),
-            "body_md": request.form.get("body_md", ""),
-            "product_url": request.form.get("product_url", "")
-        }
-        save_content(data)
-    
-    return redirect("/admin?key=KeAupuni2025!")
 
 @app.route("/data-deletion")
 def data_deletion():
@@ -775,20 +610,14 @@ def data_deletion():
     </p>
 </body>
 </html>'''
-    
+
 if __name__ == "__main__":
-    # Initialize data file if it doesn't exist
     if not DATA_FILE.exists():
         initial_data = {"order": ORDER, "pages": DEFAULT_PAGES}
         save_content(initial_data)
     
-    print("?? Starting Ke Aupuni O Ke Akua website...")
-    print("????? Visit: http://localhost:5000")
-    print("?? Admin: http://localhost:5000/admin")
-
-    app.run(debug=True, host="0.0.0.0", port=5000)
-
-
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
 
 
 
